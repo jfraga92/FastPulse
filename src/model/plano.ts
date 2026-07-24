@@ -84,6 +84,7 @@ export function amostraPlano(pl: PlanoCompilado, t: number): Amostra {
   const direcao = direcaoPercurso(i);
   const pos_rel = Math.min(pos, pl.L);
   const pos_abs = direcao > 0 ? pos_rel : pl.L - pos_rel;
+  const fase_prog = fase.dur > EPS ? Math.min(Math.max((tau - fase.t0) / fase.dur, 0), 1) : 1;
 
   return {
     t: tc,
@@ -94,6 +95,7 @@ export function amostraPlano(pl: PlanoCompilado, t: number): Amostra {
     pos_abs,
     dist_cum: i * pl.L + pos_rel,
     v: terminou ? 0 : v,
+    fase_prog,
     subaquatico: fase.subaquatico,
     terminou,
   };

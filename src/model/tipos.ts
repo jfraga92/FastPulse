@@ -102,6 +102,8 @@ export interface Amostra {
   dist_cum: number;
   /** Velocidade instantânea, m/s. */
   v: number;
+  /** Progresso dentro da fase atual, 0..1 (para animação). */
+  fase_prog: number;
   subaquatico: boolean;
   terminou: boolean;
 }
