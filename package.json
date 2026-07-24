@@ -1,0 +1,23 @@
+{
+  "name": "lebre-3d",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Simulador 3D da lebre luminosa para piscina — emulação do firmware ESP32",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "three": "^0.182.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.182.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.3.6",
+    "vitest": "^3.2.4"
+  }
+}
