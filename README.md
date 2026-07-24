@@ -1,4 +1,4 @@
-# Lebre 3D
+# Fast Pulse
 
 Simulador 3D de uma piscina de 25 m com um sistema de luzes de ritmo no fundo
 (uma fita LED endereçável dentro de uma mangueira opalina), que **emula o

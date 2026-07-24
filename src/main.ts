@@ -1,4 +1,4 @@
-// Lebre 3D — arranque da aplicação: liga o modelo (executor "ESP32"),
+// Fast Pulse — arranque da aplicação: liga o modelo (executor "ESP32"),
 // a cena Three.js e a interface.
 
 import './estilo.css';
@@ -160,5 +160,5 @@ requestAnimationFrame(frame);
 
 // Acesso de diagnóstico na consola (também útil para experimentar valores).
 Object.assign(window as unknown as Record<string, unknown>, {
-  __lebre: { cena, camaras, executor, estado },
+  __fastpulse: { cena, camaras, executor, estado },
 });
