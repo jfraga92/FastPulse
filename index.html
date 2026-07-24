@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fast Pulse — Simulador da lebre luminosa</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%2324d3c4'/%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="./assets/index-DihaHMH1.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BaT9afBk.css">
+</head>
+<body>
+  <main id="vista">
+    <div id="hud"></div>
+    <div id="contagem"></div>
+    <footer id="timeline">
+      <button id="btn-pausa" title="Pausar / retomar (espaço)">⏸</button>
+      <input id="scrub" type="range" min="0" max="53" step="0.01" value="0" />
+      <span id="tempo-label">0.00 / 0.00 s</span>
+    </footer>
+  </main>
+
+  <aside id="painel">
+    <header class="cabecalho">
+      <h1>Fast Pulse</h1>
+      <p>Simulador da lebre luminosa e emulação do firmware ESP32</p>
+    </header>
+
+    <section class="cartao">
+      <h2>ESP32 <span id="estado-esp" class="estado">IDLE</span></h2>
+      <div class="linha-botoes">
+        <button id="btn-enviar">⇪ Enviar plano</button>
+        <button id="btn-iniciar" class="destaque">▶ Iniciar</button>
+        <button id="btn-parar">■ Parar</button>
+      </div>
+      <div class="metricas">
+        <label class="inline">Atualização
+          <input id="inp-hz" type="number" min="10" max="1000" step="10" value="100" /> Hz
+        </label>
+        <span id="hz-efetivo" title="Passos do firmware executados por segundo real">—</span>
+        <span id="fps" title="Frames renderizados por segundo">—</span>
+      </div>
+      <div id="aviso-sujo" class="aviso-sujo" hidden>⚠ Há alterações por enviar ao ESP32</div>
+      <div id="log-esp" class="log"></div>
+    </section>
+
+    <section class="cartao">
+      <h2>Câmara e simulação</h2>
+      <div class="linha-botoes" id="botoes-camara">
+        <button data-camara="bancada" class="ativa">1 · Bancada</button>
+        <button data-camara="treinador">2 · Treinador</button>
+        <button data-camara="atleta">3 · Atleta</button>
+      </div>
+      <label>Velocidade da simulação
+        <span class="linha-controlo">
+          <input id="inp-vel" type="range" min="0.25" max="2" step="0.05" value="1" />
+          <output id="vel-label">1.00×</output>
+        </span>
+      </label>
+      <label class="check">
+        <input id="chk-constante" type="checkbox" />
+        Modo velocidade constante (v_pico = v_pernada = v_nado)
+      </label>
+      <label class="check">
+        <input id="chk-nadador" type="checkbox" checked />
+        Nadador virtual
+      </label>
+      <label class="inline">Desvio do nadador
+        <input id="inp-desvio" type="number" step="0.1" value="0.3" /> s por percurso
+      </label>
+    </section>
+
+    <section class="cartao">
+      <h2>Definições gerais</h2>
+      <div class="grelha-defs">
+        <label>Nome da série <input id="inp-nome" type="text" /></label>
+        <label>Piscina
+          <select id="sel-piscina">
+            <option value="25">25 m</option>
+            <option value="50">50 m</option>
+          </select>
+        </label>
+        <label>LEDs por metro
+          <select id="sel-leds">
+            <option value="30">30</option>
+            <option value="60" selected>60</option>
+            <option value="144">144</option>
+          </select>
+        </label>
+        <label>Tamanho do ponto <span class="linha-controlo"><input id="inp-ponto" type="number" min="1" max="60" step="1" /> LEDs</span></label>
+        <label>Cor à superfície <input id="cor-sup" type="color" /></label>
+        <label>Cor subaquática <input id="cor-sub" type="color" /></label>
+      </div>
+      <div class="linha-botoes">
+        <button id="btn-preset">Repor preset «100 m — 12/14/14/13»</button>
+      </div>
+    </section>
+
+    <section class="cartao">
+      <h2>Percursos</h2>
+      <div id="problemas-plano"></div>
+      <div class="tabela-scroll">
+        <table id="tabela-percursos"></table>
+      </div>
+      <div class="linha-botoes">
+        <button id="btn-add">+ Adicionar percurso</button>
+      </div>
+      <p class="nota">Percursos ímpares vão da parede A para a B; pares regressam. As colunas v_nado, t_deslize e t_pernada são calculadas. O voo só existe no 1.º percurso.</p>
+    </section>
+
+    <section class="cartao">
+      <h2>Plano JSON</h2>
+      <p class="nota">O mesmo JSON que será enviado ao ESP32 real (contrato com o firmware).</p>
+      <div class="linha-botoes">
+        <button id="btn-exportar">⤓ Exportar .json</button>
+        <button id="btn-copiar">Copiar</button>
+        <button id="btn-importar">⤒ Importar…</button>
+        <input id="inp-ficheiro" type="file" accept=".json,application/json" hidden />
+      </div>
+    </section>
+  </aside>
+
+</body>
+</html>
