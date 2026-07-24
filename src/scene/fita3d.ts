@@ -45,11 +45,9 @@ export class Fita3D {
   private readonly halo: THREE.Sprite;
 
   constructor() {
-    // Sem depthTest: visto rasante, o disco era cortado pelo plano do fundo.
     this.halo = new THREE.Sprite(new THREE.SpriteMaterial({
       map: texturaHalo(),
       depthWrite: false,
-      depthTest: false,
       transparent: true,
       opacity: 0.95,
     }));
@@ -147,12 +145,13 @@ export class Fita3D {
     this.halo.visible = éPonto;
     if (éPonto) {
       const o = cabecaIdx * 3;
-      this.halo.position.set(this.xs[cabecaIdx], this.y + 0.06, 0);
-      this.halo.material.color.setRGB(
-        Math.min(arr[o], 1),
-        Math.min(arr[o + 1], 1),
-        Math.min(arr[o + 2], 1),
-      );
+      // Acima do fundo (coluna de luz difusa na água): o disco nunca corta o
+      // chão e é ocluído corretamente pelo cais e pelas paredes.
+      this.halo.position.set(this.xs[cabecaIdx], this.y + 0.35, 0);
+      // Normalizar pelo canal máximo preserva a tonalidade (um clamp por
+      // canal tornava o vermelho saturado em branco).
+      const escala = 1 / Math.max(1, arr[o], arr[o + 1], arr[o + 2]);
+      this.halo.material.color.setRGB(arr[o] * escala, arr[o + 1] * escala, arr[o + 2] * escala);
     }
   }
 }

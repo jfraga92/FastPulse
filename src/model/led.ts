@@ -63,7 +63,7 @@ export function pintarCountdown(fita: Float32Array, numLeds: number, restante_s:
   const aceso = restante_s <= 0.5 || frac > 0.8;
   limparFita(fita);
   if (!aceso) return;
-  const intensidade = restante_s <= 0.5 ? 0.9 : 0.35;
+  const intensidade = restante_s <= 0.5 ? 0.9 : 0.55;
   for (let i = 0; i < numLeds; i++) {
     const o = i * 3;
     fita[o] = cor.r * intensidade;

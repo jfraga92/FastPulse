@@ -55,7 +55,7 @@ function texturaFundo(L: number): THREE.CanvasTexture {
 /** Parede de topo: azulejos + alvo em cruz (continuação da marca em T). */
 function texturaParedeTopo(): THREE.CanvasTexture {
   const w = LARGURA_PISTA * PX_POR_M;
-  const h = (PROFUNDIDADE + 0.3) * PX_POR_M;
+  const h = (PROFUNDIDADE + 0.12) * PX_POR_M;
   return texturaCanvas((ctx) => {
     desenharAzulejos(ctx, w, h);
     ctx.fillStyle = '#12181c';
@@ -96,27 +96,27 @@ export class Piscina {
     // Paredes de topo (partida e viragem) com alvo em T
     const texTopo = this.guardar(texturaParedeTopo());
     const matTopo = this.guardar(new THREE.MeshStandardMaterial({ map: texTopo, roughness: 0.85, side: THREE.DoubleSide }));
-    const geoTopo = this.guardar(new THREE.PlaneGeometry(LARGURA_PISTA, PROFUNDIDADE + 0.3));
+    const geoTopo = this.guardar(new THREE.PlaneGeometry(LARGURA_PISTA, PROFUNDIDADE + 0.12));
     const paredeA = new THREE.Mesh(geoTopo, matTopo);
     paredeA.rotation.y = Math.PI / 2;
-    // Topo da parede ao nível do cais (y = 0.3), fundo a −PROFUNDIDADE.
-    paredeA.position.set(0, 0.3 - (PROFUNDIDADE + 0.3) / 2, 0);
+    // Topo da parede ao nível do cais (y = 0.12), fundo a −PROFUNDIDADE.
+    paredeA.position.set(0, 0.12 - (PROFUNDIDADE + 0.12) / 2, 0);
     const paredeB = new THREE.Mesh(geoTopo, matTopo);
     paredeB.rotation.y = -Math.PI / 2;
-    paredeB.position.set(L, 0.3 - (PROFUNDIDADE + 0.3) / 2, 0);
+    paredeB.position.set(L, 0.12 - (PROFUNDIDADE + 0.12) / 2, 0);
     this.grupo.add(paredeA, paredeB);
 
     // Paredes laterais em azulejo simples
     const texLateral = this.guardar(texturaCanvas(desenharAzulejos, 256, 256));
     texLateral.wrapS = texLateral.wrapT = THREE.RepeatWrapping;
-    texLateral.repeat.set(L / 4, (PROFUNDIDADE + 0.3) / 4);
+    texLateral.repeat.set(L / 4, (PROFUNDIDADE + 0.12) / 4);
     const matLateral = this.guardar(new THREE.MeshStandardMaterial({ map: texLateral, roughness: 0.85, side: THREE.DoubleSide }));
-    const geoLateral = this.guardar(new THREE.PlaneGeometry(L, PROFUNDIDADE + 0.3));
+    const geoLateral = this.guardar(new THREE.PlaneGeometry(L, PROFUNDIDADE + 0.12));
     const lateralPerto = new THREE.Mesh(geoLateral, matLateral);
-    lateralPerto.position.set(L / 2, 0.3 - (PROFUNDIDADE + 0.3) / 2, -meia);
+    lateralPerto.position.set(L / 2, 0.12 - (PROFUNDIDADE + 0.12) / 2, -meia);
     const lateralLonge = new THREE.Mesh(geoLateral, matLateral);
     lateralLonge.rotation.y = Math.PI;
-    lateralLonge.position.set(L / 2, 0.3 - (PROFUNDIDADE + 0.3) / 2, meia);
+    lateralLonge.position.set(L / 2, 0.12 - (PROFUNDIDADE + 0.12) / 2, meia);
     this.grupo.add(lateralPerto, lateralLonge);
 
     // Água: plano translúcido com ondulação ligeira (desenhado por cima dos LEDs)
@@ -180,26 +180,27 @@ export class Piscina {
       }
     }
 
-    // Cais em volta e bloco de partida na parede A
+    // Cais em volta (ao nível da água, como numa piscina de competição — um
+    // parapeito alto esconderia o fundo às câmaras exteriores) e bloco de partida
     const matCais = this.guardar(new THREE.MeshStandardMaterial({ color: 0x39444d, roughness: 0.95 }));
-    const geoCaisLado = this.guardar(new THREE.BoxGeometry(L + 8, 0.3, 2.6));
+    const geoCaisLado = this.guardar(new THREE.BoxGeometry(L + 8, 0.24, 2.6));
     for (const lado of [-1, 1]) {
       const cais = new THREE.Mesh(geoCaisLado, matCais);
-      cais.position.set(L / 2, 0.15, lado * (meia + 1.3));
+      cais.position.set(L / 2, 0, lado * (meia + 1.3));
       this.grupo.add(cais);
     }
-    const geoCaisTopo = this.guardar(new THREE.BoxGeometry(4, 0.3, LARGURA_PISTA + 0.02));
+    const geoCaisTopo = this.guardar(new THREE.BoxGeometry(4, 0.24, LARGURA_PISTA + 0.02));
     const caisA = new THREE.Mesh(geoCaisTopo, matCais);
-    caisA.position.set(-2, 0.15, 0);
+    caisA.position.set(-2, 0, 0);
     const caisB = new THREE.Mesh(geoCaisTopo, matCais);
-    caisB.position.set(L + 2, 0.15, 0);
+    caisB.position.set(L + 2, 0, 0);
     this.grupo.add(caisA, caisB);
 
     const bloco = new THREE.Mesh(
       this.guardar(new THREE.BoxGeometry(0.65, 0.5, 0.6)),
       this.guardar(new THREE.MeshStandardMaterial({ color: 0xd8dde2, roughness: 0.7 })),
     );
-    bloco.position.set(-0.38, 0.55, 0);
+    bloco.position.set(-0.38, 0.37, 0);
     this.grupo.add(bloco);
   }
 
