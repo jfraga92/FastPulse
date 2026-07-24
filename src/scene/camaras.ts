@@ -34,8 +34,10 @@ export class Camaras {
 
   configurar(L: number): void {
     this.L = L;
-    this.bancada.position.set(L * 0.5, L * 0.42, L * 0.52);
-    this.controlos.target.set(L * 0.5, -1, 0);
+    // Diagonal sobre a zona de partida, a olhar ao longo da pista: mostra a
+    // perspetiva toda sem gastar meio ecrã em cais.
+    this.bancada.position.set(-L * 0.14, L * 0.26, L * 0.34);
+    this.controlos.target.set(L * 0.36, -1, 0);
     this.controlos.update();
     this.treinador.position.set(0.4, 1.75, 1.9);
     this.treinador.lookAt(L * 0.4, -0.6, 0);
